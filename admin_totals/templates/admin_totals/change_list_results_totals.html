@@ -7,17 +7,7 @@
 {% if results %}
     <div class="results">
         <table id="result_list">
-            <tbody>
-            {% for result in results %}
-                {% if result.form.non_field_errors %}
-                    <tr>
-                        <td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td>
-                    </tr>
-                {% endif %}
-                <tr class="{% cycle 'row1' 'row2' %}">{% for item in result %}{{ item }}{% endfor %}</tr>
-            {% endfor %}
-            </tbody>
-            <tfoot>
+            <thead>
             <tr>
                 {% for header in result_headers %}
                     <th scope="col" {{ header.class_attrib }}>
@@ -40,7 +30,18 @@
                         <div class="clear"></div>
                     </th>{% endfor %}
             </tr>
-
+            </thead>
+            <tbody>
+            {% for result in results %}
+                {% if result.form.non_field_errors %}
+                    <tr>
+                        <td colspan="{{ result|length }}">{{ result.form.non_field_errors }}</td>
+                    </tr>
+                {% endif %}
+                <tr class="{% cycle 'row1' 'row2' %}">{% for item in result %}{{ item }}{% endfor %}</tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
             {% if cl.aggregations %}
                 <tr>
                     {% for agg in cl.aggregations %}
@@ -49,7 +50,6 @@
                         </th>{% endfor %}
                 </tr>
             {% endif %}
-
             </tfoot>
         </table>
     </div>
