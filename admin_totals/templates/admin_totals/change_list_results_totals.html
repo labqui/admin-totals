@@ -1,4 +1,4 @@
-{% load i18n static %}
+{% load i18n static material %}
 {% if result_hidden_fields %}
     <div class="hiddenfields">{# DIV for HTML validation #}
         {% for item in result_hidden_fields %}{{ item }}{% endfor %}
@@ -6,10 +6,11 @@
 {% endif %}
 {% if results %}
     <div class="results">
-        <table id="result_list">
+        <table id="result_list" class="highlight">
             <thead>
             <tr>
                 {% for header in result_headers %}
+
                     <th scope="col" {{ header.class_attrib }}>
                         {% if header.sortable %}
                             {% if header.sort_priority > 0 %}
@@ -24,11 +25,20 @@
                                 </div>
                             {% endif %}
                         {% endif %}
-                        <div class="text">{% if header.sortable %}
-                            <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>{% else %}
-                            <span>{{ header.text|capfirst }}</span>{% endif %}</div>
+                        <div class="text">
+                            {% if header.sortable %}
+                                <a href="{{ header.url_primary }}">{{ header.text|capfirst }}</a>
+                            {% else %}
+                                <label>{{ header.text|capfirst }}
+                                    {% if 'action-checkbox-column' in header.class_attrib %}
+                                        <span></span>
+                                    {% endif %}
+                                </label>
+                            {% endif %}
+                        </div>
                         <div class="clear"></div>
-                    </th>{% endfor %}
+                    </th>
+                {% endfor %}
             </tr>
             </thead>
             <tbody>
