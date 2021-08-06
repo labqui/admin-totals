@@ -10,11 +10,17 @@ class ChangeListTotals(ChangeList):
         super(ChangeListTotals, self).get_results(*args, **kwargs)
         if hasattr(self.model_admin, 'list_totals'):
             self.aggregations = []
-            list_totals = dict(self.model_admin.list_totals)
+
+            list_totals = {}
+            list_totals_format = {}
+            for field, fun1, fun_format in self.model_admin.list_totals:
+                list_totals[field] = fun1
+                list_totals_format[field] = fun_format
+
             for field in self.list_display:
                 if field in list_totals:
                     self.aggregations.append(
-                        self.result_list.aggregate(agg=list_totals[field](field))['agg'])
+                        self.result_list.aggregate(agg=list_totals_format[field](list_totals[field](field)))['agg'])
                 else:
                     self.aggregations.append('')
 
