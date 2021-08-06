@@ -6,12 +6,10 @@ from django.contrib.admin.views.main import ChangeList
 
 
 class ChangeListTotals(ChangeList):
-    def __init__(self):
-        self.aggregations = []
-
     def get_results(self, *args, **kwargs):
         super(ChangeListTotals, self).get_results(*args, **kwargs)
         if hasattr(self.model_admin, 'list_totals'):
+            self.aggregations = []
             list_totals = dict(self.model_admin.list_totals)
             for field in self.list_display:
                 if field in list_totals:
