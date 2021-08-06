@@ -16,7 +16,7 @@ TEST_REQUIREMENTS = (
 
 setup(
     name="admin-totals",
-    version='1.0.2',
+    version='1.0.2-alpha',
     author="Douwe van der Meij",
     author_email="douwe@karibu-online.nl",
     description="""Django Admin Totals, add totals to your columns in Django admin.
