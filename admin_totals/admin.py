@@ -7,7 +7,7 @@ from django.contrib.admin.views.main import ChangeList
 
 class ChangeListTotals(ChangeList):
     def get_results(self, *args, **kwargs):
-        super(ChangeListTotals, self).get_results(*args, **kwargs)
+        super().get_results(*args, **kwargs)
         if hasattr(self.model_admin, 'list_totals'):
             self.aggregations = []
 
@@ -20,9 +20,10 @@ class ChangeListTotals(ChangeList):
             for field in self.list_display:
                 if field in list_totals:
                     self.aggregations.append(
-                        list_totals_format[field](self.result_list.aggregate(agg=list_totals[field](field))['agg']))
+                        getattr(self.result_list.model, field)() if callable(getattr(self.result_list.model, field)) else list_totals_format[field](
+                            self.result_list.aggregate(agg=list_totals[field](field))['agg']))
                 else:
-                    self.aggregations.append('')
+                    self.aggregations.append('&nbsp;')
 
 
 class ModelAdminTotals(admin.ModelAdmin):
