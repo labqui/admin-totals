@@ -19,8 +19,11 @@ class ChangeListTotals(ChangeList):
 
             for field in self.list_display:
                 if field in list_totals:
-                    self.aggregations.append(
-                        getattr(self.result_list.model, field)() if callable(getattr(self.result_list.model, field)) else list_totals_format[field](
+                    point = getattr(self.result_list.model, field)
+                    if callable(point):
+                        self.aggregations.append(point())
+                    else:
+                        self.aggregations.append(list_totals_format[field](
                             self.result_list.aggregate(agg=list_totals[field](field))['agg']))
                 else:
                     self.aggregations.append('&nbsp;')
