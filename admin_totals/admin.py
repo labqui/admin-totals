@@ -17,7 +17,7 @@ class ChangeListTotals(ChangeList):
                 if field in list_totals:
                     self.aggregations.append(list_totals[field](self.result_list))
                 else:
-                    self.aggregations.append('&nbsp;')
+                    self.aggregations.append(' ')
 
 
 class ModelAdminTotals(admin.ModelAdmin):
